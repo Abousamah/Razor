@@ -20,7 +20,7 @@ namespace Microsoft.AspNetCore.Razor.Design.IntegrationTests
             var thumbprintLookup = new Dictionary<string, FileThumbPrint>();
 
             // Act 1
-            var result = await DotnetMSBuild("Build", $"/p:RazorCompileOnBuild=true");
+            var result = await DotnetMSBuild("Build");
 
             var directoryPath = Path.Combine(result.Project.DirectoryPath, IntermediateOutputPath);
             var filesToIgnore = new[]
@@ -45,7 +45,7 @@ namespace Microsoft.AspNetCore.Razor.Design.IntegrationTests
                 // We want to make sure nothing changed between multiple incremental builds.
                 using (var razorGenDirectoryLock = LockDirectory(RazorIntermediateOutputPath))
                 {
-                    result = await DotnetMSBuild("Build", $"/p:RazorCompileOnBuild=true");
+                    result = await DotnetMSBuild("Build");
                 }
 
                 Assert.BuildPassed(result);

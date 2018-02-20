@@ -13,7 +13,7 @@ namespace Microsoft.AspNetCore.Razor.Design.IntegrationTests
         [InitializeTestProject("ClassLibrary")]
         public async Task Pack_Works_IncludesRazorAssembly()
         {
-            var result = await DotnetMSBuild("Pack", "/p:RazorCompileOnBuild=true");
+            var result = await DotnetMSBuild("Pack");
 
             Assert.BuildPassed(result);
 
@@ -41,7 +41,7 @@ namespace Microsoft.AspNetCore.Razor.Design.IntegrationTests
         [InitializeTestProject("ClassLibrary")]
         public async Task Pack_IncludesRazorFilesAsContent_WhenIncludeRazorContentInPack_IsSet()
         {
-            var result = await DotnetMSBuild("Pack", "/p:RazorCompileOnBuild=true /p:IncludeRazorContentInPack=true");
+            var result = await DotnetMSBuild("Pack", "/p:IncludeRazorContentInPack=true");
 
             Assert.BuildPassed(result);
 
