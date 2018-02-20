@@ -93,7 +93,7 @@ Copyright (c) .NET Foundation. All rights reserved.
     <RazorGenerateIntermediateOutputPath Condition="'$(RazorGenerateIntermediateOutputPath)'==''">$(IntermediateOutputPath)Razor\</RazorGenerateIntermediateOutputPath>
     
     <!-- File name (without extension) of the assembly produced by Razor -->
-    <RazorTargetName Condition="'$(RazorTargetName)'==''">$(TargetName).PrecompiledViews</RazorTargetName>
+    <RazorTargetName Condition="'$(RazorTargetName)'==''">$(TargetName).Views</RazorTargetName>
 
     <!--
       The compatibility zone - these properties were provided by the MVC Precompilation tool and they
