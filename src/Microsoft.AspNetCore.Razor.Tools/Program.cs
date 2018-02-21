@@ -3,6 +3,7 @@
 
 using System;
 using System.Threading;
+using Microsoft.CodeAnalysis;
 
 namespace Microsoft.AspNetCore.Razor.Tools
 {
@@ -18,8 +19,9 @@ namespace Microsoft.AspNetCore.Razor.Tools
             // Prevent shadow copying.
             var loader = new DefaultExtensionAssemblyLoader(baseDirectory: null);
             var checker = new DefaultExtensionDependencyChecker(loader, Console.Error);
+            Func<string, MetadataReferenceProperties, PortableExecutableReference> assemblyReferenceProvider = (path, properties) => new CachingMetadataReference(path, properties);
 
-            var application = new Application(cancel.Token, loader, checker);
+            var application = new Application(cancel.Token, loader, checker, assemblyReferenceProvider);
             return application.Execute(args);
         }
     }
