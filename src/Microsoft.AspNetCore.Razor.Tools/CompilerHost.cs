@@ -1,12 +1,10 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using Microsoft.CodeAnalysis;
 
 namespace Microsoft.AspNetCore.Razor.Tools
 {
@@ -21,6 +19,9 @@ namespace Microsoft.AspNetCore.Razor.Tools
 
         private class DefaultCompilerHost : CompilerHost
         {
+            // Store 100 entries -- arbitrary number
+            private const int CacheSize = 100;
+
             public DefaultCompilerHost()
             {
                 // The loader needs to live for the lifetime of the server. 
@@ -33,10 +34,10 @@ namespace Microsoft.AspNetCore.Razor.Tools
                 // could succeed sometimes if it relies on transient state.
                 Loader = new DefaultExtensionAssemblyLoader(Path.Combine(Path.GetTempPath(), "Razor-Server"));
 
-                AssemblyReferenceProvider = (path, properties) => new CachingMetadataReference(path, properties);
+                AssemblyReferenceCache = new AssemblyReferenceCache();
             }
 
-            public Func<string, MetadataReferenceProperties, PortableExecutableReference> AssemblyReferenceProvider { get; }
+            public AssemblyReferenceCache AssemblyReferenceCache { get; }
 
             public ExtensionAssemblyLoader Loader { get; }
 
@@ -54,7 +55,7 @@ namespace Microsoft.AspNetCore.Razor.Tools
                 var writer = ServerLogger.IsLoggingEnabled ? new StringWriter() : TextWriter.Null;
 
                 var checker = new DefaultExtensionDependencyChecker(Loader, writer);
-                var app = new Application(cancellationToken, Loader, checker, AssemblyReferenceProvider)
+                var app = new Application(cancellationToken, Loader, checker, AssemblyReferenceCache)
                 {
                     Out = writer,
                     Error = writer,

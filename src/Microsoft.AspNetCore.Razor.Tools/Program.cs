@@ -19,9 +19,9 @@ namespace Microsoft.AspNetCore.Razor.Tools
             // Prevent shadow copying.
             var loader = new DefaultExtensionAssemblyLoader(baseDirectory: null);
             var checker = new DefaultExtensionDependencyChecker(loader, Console.Error);
-            Func<string, MetadataReferenceProperties, PortableExecutableReference> assemblyReferenceProvider = (path, properties) => new CachingMetadataReference(path, properties);
+            var referenceCache = new AssemblyReferenceCache();
 
-            var application = new Application(cancel.Token, loader, checker, assemblyReferenceProvider);
+            var application = new Application(cancel.Token, loader, checker, referenceCache);
             return application.Execute(args);
         }
     }

@@ -117,7 +117,7 @@ namespace Microsoft.AspNetCore.Razor.Tools
                 CancellationToken ct,
                 EventBus eventBus,
                 TimeSpan? keepAlive)
-                : base(new Application(ct, Mock.Of<ExtensionAssemblyLoader>(), Mock.Of<ExtensionDependencyChecker>()))
+                : base(new Application(ct, Mock.Of<ExtensionAssemblyLoader>(), Mock.Of<ExtensionDependencyChecker>(), new AssemblyReferenceCache()))
             {
                 _host = host;
                 _compilerHost = compilerHost;

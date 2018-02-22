@@ -10,6 +10,7 @@ namespace Microsoft.AspNetCore.Razor.Tools
     /// <summary>
     /// Cache with a fixed size that evicts the least recently used members.
     /// Thread-safe.
+    /// This was taken from https://github.com/dotnet/roslyn/blob/749c0ec135d7d080658dc1aa794d15229c3d10d2/src/Compilers/Core/Portable/InternalUtilities/ConcurrentLruCache.cs.
     /// </summary>
     internal class ConcurrentLruCache<K, V>
     {
